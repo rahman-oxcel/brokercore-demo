@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BrokerCore · The writing board for asset finance brokers</title>
+<style>
+  :root{
+    --ink:#001732; --ink-2:#0B2036;
+    --blue:#0DA5F6; --blue-deep:#0784C9; --blue-wash:#E7F5FE;
+    --orange:#F65E0D; --orange-deep:#DA5109;
+    --slate:#42566E; --slate-2:#6B7C91;
+    --mist:#F4F7FB; --line:#E3EAF3; --line-2:#D3DEEC;
+    --white:#FFFFFF;
+    --shadow-sm:0 1px 2px rgba(0,23,50,.05), 0 6px 16px rgba(0,23,50,.05);
+    --shadow:0 4px 10px rgba(0,23,50,.06), 0 22px 50px rgba(0,23,50,.10);
+    --shadow-blue:0 18px 44px rgba(13,165,246,.28);
+    --r:14px; --r-lg:22px; --pill:999px;
+    --sans:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --serif:'Abhaya Libre','Fraunces','Iowan Old Style',Georgia,'Times New Roman',serif;
+    --wrap:1160px;
+    color-scheme:light;
+    --logo:url("data:image/webp;base64,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");
+  }
+  .blogo{display:inline-block;background:var(--logo) left center/contain no-repeat;vertical-align:middle}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--white);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{margin:0;font-family:var(--serif);font-weight:800;line-height:1.06;letter-spacing:-.01em;color:var(--ink);text-wrap:balance}
+  p{margin:0}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+  .eyebrow{font-family:var(--sans);font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-deep)}
+  .lead{color:var(--slate);font-size:19px}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-weight:600;font-size:15.5px;border-radius:var(--pill);padding:13px 26px;border:1.5px solid transparent;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,background .16s ease,color .16s ease;white-space:nowrap}
+  .btn-cta{background:var(--orange);color:#fff;border-color:var(--orange);box-shadow:0 10px 24px rgba(246,94,13,.28)}
+  .btn-cta:hover{background:var(--orange-deep);border-color:var(--orange-deep);transform:translateY(-2px);box-shadow:0 14px 30px rgba(246,94,13,.34)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+  .btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .btn-light{background:#fff;color:var(--ink);border-color:#fff}
+  .btn-light:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .btn-blue{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .btn-blue:hover{background:var(--blue-deep);border-color:var(--blue-deep);transform:translateY(-2px)}
+  .btn-lg{padding:16px 34px;font-size:16.5px}
+
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(1.5) blur(12px);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:var(--wrap);margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:24px}
+  .brand{font-family:var(--sans);font-weight:700;font-size:23px;letter-spacing:-.02em}
+  .brand .b{color:var(--blue)} .brand .o{color:var(--orange)}
+  .nav-links{display:flex;gap:26px;margin-left:22px;font-size:15px;font-weight:500;color:var(--slate)}
+  .nav-links a{transition:color .15s} .nav-links a:hover{color:var(--ink)}
+  .nav-cta{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .nav-login{font-weight:600;font-size:15px;color:var(--ink);padding:10px 14px;border-radius:var(--pill)}
+  .nav-login:hover{color:var(--blue-deep)}
+  .burger{display:none;background:none;border:none;cursor:pointer;padding:8px;color:var(--ink)}
+  @media(max-width:860px){ .nav-links{display:none} .burger{display:inline-flex} .nav-login{display:none} }
+
+  /* hero */
+  .hero{position:relative;padding:78px 0 40px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;z-index:-1;
+    background:
+      radial-gradient(1100px 520px at 82% -8%, rgba(13,165,246,.14), transparent 60%),
+      radial-gradient(760px 460px at 5% 8%, rgba(246,94,13,.08), transparent 55%);}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
+  .hero h1{font-size:clamp(40px,5.6vw,66px);margin:16px 0 20px}
+  .hero h1 em{font-style:normal;color:var(--blue)}
+  .hero .lead{max-width:33ch;margin-bottom:30px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .hero-trust{margin-top:26px;font-size:13.5px;color:var(--slate-2);display:flex;align-items:center;gap:9px}
+  .hero-trust b{color:var(--slate);font-weight:600}
+  .dot{width:5px;height:5px;border-radius:50%;background:var(--line-2)}
+  @media(max-width:900px){ .hero-grid{grid-template-columns:1fr;gap:40px} .hero .lead{max-width:none} }
+
+  /* hero product board */
+  .board{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:16px;transform:rotate(.4deg)}
+  .board-top{display:flex;align-items:center;gap:8px;padding:4px 6px 14px}
+  .board-top .tt{font-family:var(--sans);font-weight:700;font-size:14px;color:var(--ink)}
+  .board-top .tsub{font-size:11.5px;color:var(--slate-2);margin-left:auto}
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .col{background:var(--mist);border:1px solid var(--line);border-radius:12px;padding:9px;min-height:216px}
+  .col h4{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--slate-2);margin:2px 4px 9px;display:flex;justify-content:space-between}
+  .kard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,23,50,.04)}
+  .kard .nm{font-family:var(--sans);font-weight:600;font-size:12.5px;color:var(--ink);display:flex;justify-content:space-between;gap:6px}
+  .kard .nm .amt{color:var(--ink);font-variant-numeric:tabular-nums}
+  .kard .mt{font-size:10.5px;color:var(--slate-2);margin-top:3px;display:flex;gap:6px;align-items:center}
+  .tag{font-size:9px;font-weight:700;letter-spacing:.03em;padding:2px 6px;border-radius:5px}
+  .tag.b{background:var(--blue-wash);color:var(--blue-deep)}
+  .tag.o{background:#FDEADD;color:var(--orange-deep)}
+  .edge{width:3px;border-radius:3px;background:var(--blue);position:absolute;left:0;top:8px;bottom:8px}
+  .kard{position:relative;overflow:hidden}
+  .kard .edge2{position:absolute;left:0;top:0;bottom:0;width:3px}
+  .kard.blue .edge2{background:var(--blue)} .kard.orange .edge2{background:var(--orange)}
+  .float{animation:floaty 6s ease-in-out infinite}
+  .float.d1{animation-delay:.6s} .float.d2{animation-delay:1.2s}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .mover{animation:mover 7s ease-in-out infinite}
+  @keyframes mover{0%,18%{transform:translateY(0);opacity:1}28%,40%{transform:translateY(6px) scale(.98);opacity:.0}41%{transform:translateY(-4px)}52%,100%{transform:translateY(0);opacity:1}}
+  .board-badge{position:absolute;right:-14px;top:-14px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:11px 15px;display:flex;align-items:center;gap:10px}
+  .board-badge .ic{width:34px;height:34px;border-radius:50%;background:var(--blue-wash);color:var(--blue-deep);display:flex;align-items:center;justify-content:center;flex:none}
+  .board-badge .l{font-family:var(--sans)} .board-badge .l b{display:block;font-size:13px;font-weight:700;color:var(--ink)} .board-badge .l span{font-size:11px;color:var(--slate-2)}
+  @media(max-width:520px){ .board-badge{display:none} }
+
+  /* trust strip */
+  .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--mist);margin-top:44px}
+  .strip-in{max-width:var(--wrap);margin:0 auto;padding:22px 24px;display:flex;align-items:center;gap:30px;flex-wrap:wrap;justify-content:center}
+  .strip .lbl{font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--slate-2)}
+  .strip .names{display:flex;gap:26px;flex-wrap:wrap;align-items:center}
+  .strip .names span{font-family:var(--sans);font-weight:700;font-size:16px;color:#93A3B7;letter-spacing:-.01em}
+
+  /* section scaffolding */
+  section{padding:88px 0}
+  .sec-head{max-width:640px;margin:0 auto 46px;text-align:center}
+  .sec-head h2{font-size:clamp(30px,3.8vw,44px);margin:12px 0 14px}
+  .sec-head .lead{font-size:18px}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;counter-reset:s}
+  .step{position:relative;padding:24px 18px;border:1px solid var(--line);border-radius:var(--r);background:#fff;transition:transform .2s ease,box-shadow .2s ease,border-color .2s}
+  .step:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--line-2)}
+  .step .n{counter-increment:s;font-family:var(--serif);font-weight:800;font-size:15px;width:34px;height:34px;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+  .step .n::before{content:counter(s,decimal-leading-zero)}
+  .step h3{font-family:var(--sans);font-weight:700;font-size:16.5px;margin-bottom:6px}
+  .step p{font-size:13.5px;color:var(--slate)}
+  @media(max-width:940px){ .steps{grid-template-columns:repeat(2,1fr)} }
+  @media(max-width:520px){ .steps{grid-template-columns:1fr} }
+
+  /* features */
+  .feat-wrap{background:var(--mist);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .feat{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:28px 26px;transition:transform .2s ease,box-shadow .2s ease}
+  .feat:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+  .feat .ic{width:48px;height:48px;border-radius:13px;background:linear-gradient(150deg,var(--blue),var(--blue-deep));color:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:var(--shadow-blue)}
+  .feat.accent .ic{background:linear-gradient(150deg,var(--orange),var(--orange-deep));box-shadow:0 16px 40px rgba(246,94,13,.28)}
+  .feat h3{font-family:var(--sans);font-weight:700;font-size:19px;margin-bottom:8px}
+  .feat p{font-size:14.5px;color:var(--slate)}
+  @media(max-width:900px){ .feats{grid-template-columns:1fr 1fr} }
+  @media(max-width:620px){ .feats{grid-template-columns:1fr} }
+
+  /* showcase */
+  .show{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+  .show h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:16px}
+  .show ul{list-style:none;padding:0;margin:22px 0 0;display:flex;flex-direction:column;gap:14px}
+  .show li{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--slate)}
+  .show li b{color:var(--ink);font-weight:600}
+  .show li .ck{flex:none;width:24px;height:24px;border-radius:50%;background:var(--blue-wash);color:var(--blue-deep);display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .rail-shot{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-columns:180px 1fr}
+  .rail{background:#fff;border-right:1px solid var(--line);padding:14px 10px}
+  .rail .logo{font-family:var(--sans);font-weight:700;font-size:15px;padding:4px 8px 14px}
+  .rail .logo .b{color:var(--blue)} .rail .logo .o{color:var(--orange)}
+  .rail .ri{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;font-size:12.5px;color:var(--slate);font-family:var(--sans);font-weight:500}
+  .rail .ri.on{background:var(--blue);color:#fff;font-weight:600}
+  .rail .av{width:20px;height:20px;border-radius:50%;background:var(--blue-wash);color:var(--blue-deep);font-size:8.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+  .rail .ri.on .av{background:rgba(255,255,255,.25);color:#fff}
+  .panel{padding:20px}
+  .panel .ph{font-family:var(--sans);font-weight:700;font-size:15px;margin-bottom:14px;color:var(--ink)}
+  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+  .tile{border:1px solid var(--line);border-radius:12px;padding:12px}
+  .tile .l{font-size:10px;color:var(--slate-2);font-weight:600}
+  .tile .v{font-size:18px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;margin-top:3px;font-family:var(--sans)}
+  .bar{height:9px;border-radius:6px;background:var(--mist);margin:9px 0;overflow:hidden}
+  .bar span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--blue-deep))}
+  @media(max-width:900px){ .show{grid-template-columns:1fr;gap:34px} .rail-shot{grid-template-columns:150px 1fr} }
+  @media(max-width:520px){ .rail-shot{grid-template-columns:1fr} .rail{display:none} }
+
+  /* testimonials */
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .quote{border:1px solid var(--line);border-radius:var(--r-lg);padding:28px 26px;background:#fff}
+  .quote .stars{color:var(--orange);font-size:15px;letter-spacing:2px;margin-bottom:12px}
+  .quote p{font-family:var(--serif);font-size:19px;line-height:1.4;color:var(--ink);margin-bottom:18px}
+  .quote .who{display:flex;align-items:center;gap:11px}
+  .quote .who .a{width:38px;height:38px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:700;font-size:13px}
+  .quote .who b{display:block;font-family:var(--sans);font-size:14px} .quote .who span{font-size:12.5px;color:var(--slate-2)}
+  @media(max-width:900px){ .quotes{grid-template-columns:1fr} }
+
+  /* stats band */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
+  .stat .v{font-family:var(--serif);font-weight:800;font-size:clamp(34px,4.4vw,52px);color:var(--blue)}
+  .stat .l{font-size:14px;color:var(--slate);margin-top:2px}
+  @media(max-width:620px){ .stats{grid-template-columns:1fr 1fr;gap:28px} }
+
+  /* CTA band */
+  .cta-band{position:relative;background:radial-gradient(1000px 400px at 80% 0%, rgba(13,165,246,.35), transparent 60%),linear-gradient(180deg,var(--ink),var(--ink-2));color:#fff;border-radius:28px;padding:64px 48px;text-align:center;overflow:hidden}
+  .cta-band h2{color:#fff;font-size:clamp(30px,4vw,48px);margin-bottom:16px}
+  .cta-band p{color:rgba(255,255,255,.78);font-size:18px;max-width:52ch;margin:0 auto 30px}
+  .cta-band .row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .cta-glow{position:absolute;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(246,94,13,.35),transparent 65%);left:-80px;bottom:-120px}
+
+  /* contact */
+  .contact{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+  .contact .card{border:1px solid var(--line);border-radius:var(--r-lg);padding:26px 28px;background:#fff;display:flex;gap:16px;align-items:center;box-shadow:var(--shadow-sm)}
+  .contact .card .ic{width:46px;height:46px;border-radius:12px;background:var(--blue-wash);color:var(--blue-deep);display:flex;align-items:center;justify-content:center;flex:none}
+  .contact .card .l{font-size:12.5px;color:var(--slate-2);font-weight:600}
+  .contact .card .v{font-family:var(--sans);font-weight:700;font-size:19px;color:var(--ink)}
+  @media(max-width:760px){ .contact{grid-template-columns:1fr} }
+
+  /* footer */
+  footer{background:var(--ink);color:rgba(255,255,255,.7);padding:56px 0 30px;margin-top:0}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px;padding-bottom:34px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .foot-grid .brand{color:#fff;margin-bottom:10px}
+  .foot-grid p{font-size:14px;max-width:30ch}
+  .foot-col h5{font-family:var(--sans);font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:0 0 14px;font-weight:600}
+  .foot-col a{display:block;font-size:14.5px;padding:5px 0;color:rgba(255,255,255,.78);transition:color .15s}
+  .foot-col a:hover{color:#fff}
+  .foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;font-size:13px;color:rgba(255,255,255,.5)}
+  @media(max-width:820px){ .foot-grid{grid-template-columns:1fr 1fr} }
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .float,.mover,.board{animation:none}
+    .btn:hover,.feat:hover,.step:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top"><span class="blogo" style="width:150px;height:30px" role="img" aria-label="Brokercore"></span></a>
+    <nav class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#features">Platform</a>
+      <a href="#product">The board</a>
+      <a href="#proof">Brokers</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="nav-login" href="https://rahman-oxcel.github.io/brokercore-demo/app/">Log in</a>
+      <a class="btn btn-cta" href="#contact">Contact us</a>
+    </div>
+    <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav-links').style.display= (getComputedStyle(document.querySelector('.nav-links')).display==='none'?'flex':'none')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">The asset finance writing board</span>
+        <h1>Write more deals, with <em>far less</em> busywork.</h1>
+        <p class="lead">BrokerCore takes an asset finance deal from first enquiry to settled commission on one clean board. Manage clients, build the fact-find, compare lenders, stay compliant, and claim your commission, without switching tools.</p>
+        <div class="hero-cta">
+          <a class="btn btn-cta btn-lg" href="#contact">Contact us</a>
+          <a class="btn btn-ghost btn-lg" href="#how">See how it works</a>
+        </div>
+        <div class="hero-trust"><b>Provided by Oxcel</b> <span class="dot"></span> Built for brokers, aggregators &amp; lenders</div>
+      </div>
+
+      <div class="board float" aria-hidden="true">
+        <div class="board-top">
+          <span class="tt">Deal board</span>
+          <span class="tsub">Apex Asset Finance</span>
+        </div>
+        <div class="cols">
+          <div class="col">
+            <h4><span>Leads</span><span>2</span></h4>
+            <div class="kard blue float"><div class="edge2"></div><div class="nm">Priya Sharma <span class="amt">$52k</span></div><div class="mt">Car <span class="tag b">CONS</span></div></div>
+            <div class="kard float d1"><div class="nm">M. Okafor <span class="amt">$38k</span></div><div class="mt">Ute <span class="tag b">CONS</span></div></div>
+          </div>
+          <div class="col">
+            <h4><span>Doc collection</span><span>1</span></h4>
+            <div class="kard orange mover"><div class="edge2"></div><div class="nm">Nguyen Transport <span class="amt">$240k</span></div><div class="mt">Truck <span class="tag o">COMM</span></div></div>
+          </div>
+          <div class="col">
+            <h4><span>Approval</span><span>1</span></h4>
+            <div class="kard blue float d2"><div class="edge2"></div><div class="nm">Delgado Civil <span class="amt">$410k</span></div><div class="mt">Excavator <span class="tag o">COMM</span></div></div>
+          </div>
+        </div>
+        <div class="board-badge float d1">
+          <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span class="l"><b>Commission claimed</b><span>Delgado Civil · $6,150</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="strip">
+      <div class="strip-in">
+        <span class="lbl">Connected to the tools brokers already use</span>
+        <div class="names"><span>Equifax</span><span>illion</span><span>Oxcel AI</span><span>Infynity</span><span>eSign</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">How it works</span>
+      <h2>Five steps from enquiry to commission.</h2>
+      <p class="lead">One workflow, always moving forward. Nothing gets re-keyed, and nothing falls through.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="n"></div><h3>Write the deal</h3><p>Start from an enquiry. Client, asset and structure prefill, so a deal opens in seconds.</p></div>
+      <div class="step reveal"><div class="n"></div><h3>Build the fact-find</h3><p>Income, expenses, assets, liabilities and objectives, with consolidated figures per client.</p></div>
+      <div class="step reveal"><div class="n"></div><h3>Compare lenders</h3><p>Shortlist from live Lender Research and put at least three products side by side.</p></div>
+      <div class="step reveal"><div class="n"></div><h3>Stay compliant</h3><p>Privacy, preliminary assessment and KYC, gated exactly where the NCCP requires it.</p></div>
+      <div class="step reveal"><div class="n"></div><h3>Settle &amp; claim</h3><p>Track to settlement, then claim your commission in a click. No spreadsheets.</p></div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <div class="feat-wrap">
+    <section id="features" class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">The platform</span>
+        <h2>Everything a deal needs, in one board.</h2>
+        <p class="lead">Purpose-built for asset finance, not a mortgage CRM bent to fit.</p>
+      </div>
+      <div class="feats">
+        <div class="feat reveal">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18"/></svg></div>
+          <h3>Visual deal board</h3><p>Drag a deal between stages, movement is always free. See your whole pipeline and what needs attention at a glance.</p>
+        </div>
+        <div class="feat reveal">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v14H4z"/><path d="M4 10h16M9 5v14"/></svg></div>
+          <h3>One fact-find, consolidated</h3><p>Capture income, expenses, assets and liabilities once. Totals, net position and surplus roll up per client automatically.</p>
+        </div>
+        <div class="feat reveal">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+          <h3>Lender comparison</h3><p>Pull rates and appetite straight from Lender Research and compare products side by side before you present.</p>
+        </div>
+        <div class="feat reveal">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 5-3.2 8.4-7 10-3.8-1.6-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h3>Compliance, built in</h3><p>Privacy consent before Equifax, a signed preliminary assessment before a consumer submission. The rules gate the actions for you.</p>
+        </div>
+        <div class="feat accent reveal">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/></svg></div>
+          <h3>Commission claims</h3><p>Settled deals flow straight to a commission claim, prefilled and reconciled. Chase less, get paid sooner.</p>
+        </div>
+        <div class="feat reveal">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.2 5.6L20 10l-5.8 1.4L12 17l-2.2-5.6L4 10l5.8-1.4z"/></svg></div>
+          <h3>BrokerCore AI</h3><p>A deal-aware assistant that drafts client emails, summarises a file and flags what is missing before submission. Always yours to review.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- PRODUCT SHOWCASE -->
+  <section id="product" class="wrap">
+    <div class="show">
+      <div class="reveal">
+        <span class="eyebrow">Inside a deal</span>
+        <h2>The whole client, on one rail.</h2>
+        <p class="lead">Open a deal and everything is a click away, the overview, each client, and the full fact-find, with the numbers already added up.</p>
+        <ul>
+          <li><span class="ck"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Consolidated figures</b> for income, assets, liabilities and net position, per applicant.</span></li>
+          <li><span class="ck"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Every party on its own page</b>, with credit checks and consent folded in.</span></li>
+          <li><span class="ck"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Loan products compared</b> from live Lender Research, ready to present.</span></li>
+        </ul>
+        <div style="margin-top:28px"><a class="btn btn-blue" href="#contact">Book a walkthrough</a></div>
+      </div>
+      <div class="rail-shot reveal" aria-hidden="true">
+        <div class="rail">
+          <div class="logo"><span class="blogo" style="width:104px;height:18px" role="img" aria-label="Brokercore"></span></div>
+          <div class="ri">Overview</div>
+          <div class="ri on"><span class="av">KN</span> Kevin Nguyen</div>
+          <div class="ri"><span class="av">LN</span> Linh Nguyen</div>
+          <div class="ri">Income</div>
+          <div class="ri">Expenses</div>
+          <div class="ri">Assets</div>
+          <div class="ri">Liabilities</div>
+          <div class="ri">Needs &amp; objectives</div>
+          <div class="ri">Loan products</div>
+        </div>
+        <div class="panel">
+          <div class="ph">Income</div>
+          <div class="tiles">
+            <div class="tile"><div class="l">Total annual</div><div class="v">$216,000</div></div>
+            <div class="tile"><div class="l">Kevin</div><div class="v">$148,000</div></div>
+            <div class="tile"><div class="l">Linh</div><div class="v">$68,000</div></div>
+          </div>
+          <div class="ph" style="margin-top:6px">Position</div>
+          <div class="tiles">
+            <div class="tile"><div class="l">Assets</div><div class="v">$792,000</div></div>
+            <div class="tile"><div class="l">Liabilities</div><div class="v">$3,800</div></div>
+            <div class="tile"><div class="l">Net</div><div class="v">$788,200</div></div>
+          </div>
+          <div class="bar"><span style="width:82%"></span></div>
+          <div style="font-size:11.5px;color:var(--slate-2)">Serviceability 82% · surplus $14,710/mo</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="feat-wrap"><section class="wrap"><div class="stats">
+    <div class="stat reveal"><div class="v">1 board</div><div class="l">Enquiry to settlement</div></div>
+    <div class="stat reveal"><div class="v">3+</div><div class="l">Lenders compared per deal</div></div>
+    <div class="stat reveal"><div class="v">0</div><div class="l">Double data entry</div></div>
+    <div class="stat reveal"><div class="v">100%</div><div class="l">NCCP steps tracked</div></div>
+  </div></section></div>
+
+  <!-- PROOF -->
+  <section id="proof" class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Brokers on BrokerCore</span>
+      <h2>Written by brokers, for brokers.</h2>
+    </div>
+    <div class="quotes">
+      <div class="quote reveal"><div class="stars">★★★★★</div><p>"My pipeline finally lives in one place. I open a deal and the whole fact-find is already added up."</p><div class="who"><span class="a">GS</span><div><b>Greg Stuart</b><span>Asset finance broker, VIC</span></div></div></div>
+      <div class="quote reveal"><div class="stars">★★★★★</div><p>"Comparing three lenders used to be a spreadsheet job. Now it is a couple of clicks before I present."</p><div class="who"><span class="a">JS</span><div><b>Jana Silva</b><span>Director, commercial finance</span></div></div></div>
+      <div class="quote reveal"><div class="stars">★★★★★</div><p>"The compliance gates mean nothing settles without the paperwork. Claims just flow through now."</p><div class="who"><span class="a">TM</span><div><b>Trevor Mitchell</b><span>Aggregator partner</span></div></div></div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section class="wrap">
+    <div class="cta-band reveal">
+      <div class="cta-glow"></div>
+      <h2>Ready to write your next deal on BrokerCore?</h2>
+      <p>Talk to our team about moving your asset finance workflow onto BrokerCore. We will show you the board, the fact-find and the numbers on your own deals.</p>
+      <div class="row">
+        <a class="btn btn-cta btn-lg" href="#contact">Contact us</a>
+        <a class="btn btn-light btn-lg" href="https://rahman-oxcel.github.io/brokercore-demo/app/">Log in</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Contact us</span>
+      <h2>Let's talk about your deals.</h2>
+      <p class="lead">Reach the BrokerCore team and we will set up a walkthrough on your own pipeline.</p>
+    </div>
+    <div class="contact">
+      <a class="card reveal" href="mailto:contact@brokercore.com.au">
+        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg></span>
+        <span><span class="l">Email</span><span class="v">contact@brokercore.com.au</span></span>
+      </a>
+      <a class="card reveal" href="tel:1800010001">
+        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span>
+        <span><span class="l">Phone</span><span class="v">1800 010 001</span></span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer id="login">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div style="margin-bottom:10px"><span class="blogo" style="width:150px;height:28px" role="img" aria-label="Brokercore"></span></div>
+        <p>The writing board for asset finance brokers. Provided by Oxcel, built for brokers, aggregators and lenders.</p>
+      </div>
+      <div class="foot-col"><h5>Platform</h5><a href="#how">How it works</a><a href="#features">Features</a><a href="#product">The deal board</a><a href="#proof">For brokers</a></div>
+      <div class="foot-col"><h5>Company</h5><a href="#">About Oxcel</a><a href="#contact">Contact</a><a href="#">Partnerships</a><a href="#">Careers</a></div>
+      <div class="foot-col"><h5>Get started</h5><a href="#contact">Contact us</a><a href="https://rahman-oxcel.github.io/brokercore-demo/app/">Log in</a><a href="#">Book a demo</a><a href="#">Support</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="yr">2026</span> BrokerCore by Oxcel. All rights reserved.</span>
+      <span>Privacy · Terms · Mortgage lending on Infynity</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){ a.addEventListener('click', function(ev){ var id=a.getAttribute('href'); if(id.length>1){ var t=document.querySelector(id); if(t){ ev.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); } } }); });
+  })();
+</script>
+
+</body>
+</html>
